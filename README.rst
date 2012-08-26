@@ -2,7 +2,8 @@ MP 620 - 630 | Debian Based Univeral Installer
 ##############################################
 
 This Works for ALL Debian Based Systems
-  This Installer has been built for x86 and x86\_64. The Installer has been tested on :
+
+This Installer has been built for x86 and x86\_64. The Installer has been tested on :
   * Ubuntu 8.04 - 12.04
   * Debian 5 - 6 
   * Mint 10 - 12.
