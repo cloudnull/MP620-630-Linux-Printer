@@ -4,7 +4,7 @@
 # - author       : Kevin Carter
 # - License      : GPLv3
 # - date         : 2012-08-24
-# - version      : 1
+# - version      : 5B2
 # - Notes       ------------------------------------------------- ##
 ## This script was created by Kevin Carter and BK Integration     ##
 ## This script is for use under GPLv3 and you should feel free to ##
@@ -29,7 +29,7 @@
 ## -------------------------------------------------------------- ##
 
 clear
-echo "Version 5.0-Alpha2 - Universal"
+echo "Version 5.0-Beta2 - Universal"
 
 USER=$(whoami)
 ARCH=$(uname -m)
@@ -105,7 +105,10 @@ CHECK8=$(dpkg -l | grep -o libtiff4:i386 | cut -d " " -f 3)
 if [ "$CHECK8" ] > /dev/null 2>&1;then
         su -c 'dpkg -l | grep -o libtiff4:i386 | cut -d " " -f 3 | xargs dpkg -P' >> /tmp/canon-printing_Install.log 2>&1
 fi
-
+CHECK9=$(dpkg -l | grep -o cups-bjnp | cut -d " " -f 3)
+if [ "$CHECK9" ] > /dev/null 2>&1;then
+        su -c 'dpkg -l | grep -o cups-bjnp | cut -d " " -f 3 | xargs dpkg -P' >> /tmp/canon-printing_Install.log 2>&1
+fi
 
 if [ ! /lib32/libpng.so.3 ]; then 
         su -c 'rm /lib32/libpng.so.3' >> /tmp/canon-printing_Install.log 2>&1
@@ -150,6 +153,7 @@ if [ ! "$CHECKGDEB" ];then
 fi
 
 if [ `uname -m` = "x86_64" ]; then
+echo -e '\nInstalling the 32Bit Libraries for the system'
         su -c 'apt-get -y install ia32-libs' >> /tmp/canon-printing_Install.log 2>&1
         if [ $? -ne 0 ] ; then
         echo -e '\nI am sorry though you are using a x64 system and the apt-get package management system failed to install ia32-libs.'  
@@ -249,10 +253,10 @@ ${PRINTERIP}" >> /etc/hosts
 echo ""
 echo -e "\n\033[1;35m********* READ THIS AND PAY ATTENTION *********\033[0m"
         sleep 3
-echo 'The Printer configuration and Setup window will now Open'
-echo 'Once it opens click add'
+echo 'The Printer configuration and Setup window should now Open'
+echo 'if it does not open, open it. Once opened add your printer.'
 echo ''
-echo 'The Canon Printers that you have installed should show up as Printers now.'
+echo 'The Canon Printers that you have installed should show up.'
 echo 'Select the printer that has been found and click Next'
 echo 'The Printer configuration should recognize the Printer' 
 echo 'Drivers should be automatically found and guild you through the install.'
