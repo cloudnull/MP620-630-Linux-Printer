@@ -63,6 +63,10 @@ echo ""
 sleep 3
 read -p "Press [ Enter ] to Continue or Press [ CTRL-C ] to quit"
 
+if [ -f /tmp/canon-printing_Install.log ];then
+  mv /tmp/canon-printing_Install.log /tmp/canon-printing_Install.log.$(date  +%H%M%S)
+fi 
+
 EXITERROR(){
         echo -e '\nPlease contact Kevin at info@bkintegration.com to see if there is an update for this Installation.\nLog file for the installation of the Drivers is in your Home Folder\n'
         read -p "Press [ Enter ] to Exit"
