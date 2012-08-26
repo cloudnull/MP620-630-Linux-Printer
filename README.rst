@@ -12,8 +12,8 @@ This Installer has been built for x86 and x86\_64. The Installer has been tested
 
   As with my previous post, this article will help you install the Canon MP620 and or MP630 Printer on a Debian Based Linux machine. What differentiates this HOW-TO from the others is that this is a place to download an installer script to allow you to install the printer with minimal effort and by minimal I mean that the Printer in normally functional in around 15 minutes. 
 
-This Installer works on BOTH 32bit and 64bit Debian Based Linux Systems
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This Installer works on BOTH 32bit and 64bit
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 I developed this script to help ease the installation and transition from Windows to Linux, and to allow people to get their Linux systems running with the least amount of effort.
 
