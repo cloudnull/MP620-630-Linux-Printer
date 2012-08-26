@@ -29,7 +29,7 @@
 ## -------------------------------------------------------------- ##
 
 clear
-echo "Version 5.0-Alpha - Universal"
+echo "Version 5.0-Alpha2 - Universal"
 
 USER=$(whoami)
 ARCH=$(uname -m)
@@ -70,92 +70,87 @@ EXITERROR(){
         }
 
 echo -e "\n\033[1;31mPurging the old installation file should there be any\033[0m"
-echo ' ---------------------- Purging OLD Packages  ---------------------- ' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+echo ' ---------------------- Purging OLD Packages  ---------------------- ' >> /tmp/canon-printing_Install.log 2>&1
 CHECK1=$(dpkg -l | grep cnijfilter | cut -d " " -f 3)
 if [ "$CHECK1" ]  > /dev/null 2>&1;then
         echo 'Directory Warnings for this package are normal.  If you see one please Ignore'
-        su -c 'dpkg -l | grep cnijfilter | cut -d " " -f 3 | xargs dpkg -P' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c 'dpkg -l | grep cnijfilter | cut -d " " -f 3 | xargs dpkg -P' >> /tmp/canon-printing_Install.log 2>&1
 fi
 CHECK2=$(dpkg -l | grep scangear | cut -d " " -f 3)
 if [ "$CHECK2" ] > /dev/null 2>&1;then
-        su -c 'dpkg -l | grep scangear | cut -d " " -f 3 | xargs dpkg -P' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c 'dpkg -l | grep scangear | cut -d " " -f 3 | xargs dpkg -P' >> /tmp/canon-printing_Install.log 2>&1
 fi 
 CHECK3=$(dpkg -l | grep libcupsys2 | cut -d " " -f 3)
 if [ "$CHECK3" ] > /dev/null 2>&1;then
-        su -c 'dpkg -l | grep libcupsys2 | cut -d " " -f 3 | xargs dpkg -P' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c 'dpkg -l | grep libcupsys2 | cut -d " " -f 3 | xargs dpkg -P' >> /tmp/canon-printing_Install.log 2>&1
 fi
 CHECK4=$(grep 'Printer IP Address' /etc/hosts)
 if [ "$CHECK4" ] > /dev/null 2>&1;then
         echo "Printer is being removed from the Hostfile."
-        su -c 'sed -i "/Printer IP Address/,+1 d" /etc/hosts' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c 'sed -i "/Printer IP Address/,+1 d" /etc/hosts' >> /tmp/canon-printing_Install.log 2>&1
 fi
 CHECK5=$(dpkg -l | grep -o libtiff4 | cut -d " " -f 3)
 if [ "$CHECK5" ] > /dev/null 2>&1;then
-        su -c 'dpkg -l | grep libtiff4 | cut -d " " -f 3 | xargs dpkg -P' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c 'dpkg -l | grep libtiff4 | cut -d " " -f 3 | xargs dpkg -P' >> /tmp/canon-printing_Install.log 2>&1
 fi
 CHECK6=$(dpkg -l | grep -o libpopt0 | cut -d " " -f 3)
 if [ "$CHECK6" ] > /dev/null 2>&1;then
-        su -c 'dpkg -l | grep -o libpopt0 | cut -d " " -f 3 | xargs dpkg -P' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c 'dpkg -l | grep -o libpopt0 | cut -d " " -f 3 | xargs dpkg -P' >> /tmp/canon-printing_Install.log 2>&1
 fi
 CHECK7=$(dpkg -l | grep -o libpopt0:i386 | cut -d " " -f 3)
 if [ "$CHECK7" ] > /dev/null 2>&1;then
-        su -c 'dpkg -l | grep -o libpopt0:i386 | cut -d " " -f 3 | xargs dpkg -P' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c 'dpkg -l | grep -o libpopt0:i386 | cut -d " " -f 3 | xargs dpkg -P' >> /tmp/canon-printing_Install.log 2>&1
 fi
 CHECK8=$(dpkg -l | grep -o libtiff4:i386 | cut -d " " -f 3)
 if [ "$CHECK8" ] > /dev/null 2>&1;then
-        su -c 'dpkg -l | grep -o libtiff4:i386 | cut -d " " -f 3 | xargs dpkg -P' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c 'dpkg -l | grep -o libtiff4:i386 | cut -d " " -f 3 | xargs dpkg -P' >> /tmp/canon-printing_Install.log 2>&1
 fi
 
 
 if [ ! /lib32/libpng.so.3 ]; then 
-        su -c 'rm /lib32/libpng.so.3' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c 'rm /lib32/libpng.so.3' >> /tmp/canon-printing_Install.log 2>&1
 fi
 if [ ! /usr/lib32/libpng.so.3 ]; then 
-        su -c 'rm /lib32/libpng.so.3' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c 'rm /lib32/libpng.so.3' >> /tmp/canon-printing_Install.log 2>&1
 fi
 if [ ! /usr/lib32/libtiff.so.3 ]; then 
-        su -c 'rm /lib32/libpng.so.3' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c 'rm /lib32/libpng.so.3' >> /tmp/canon-printing_Install.log 2>&1
 fi
 if [ ! /lib/libpng.so.3 ]; then 
-        su -c 'rm /lib32/libpng.so.3' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c 'rm /lib32/libpng.so.3' >> /tmp/canon-printing_Install.log 2>&1
 fi
 if [ ! /usr/lib/libtiff.so.3 ]; then 
-        su -c 'rm /lib32/libpng.so.3' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c 'rm /lib32/libpng.so.3' >> /tmp/canon-printing_Install.log 2>&1
 fi
 if [ ! /usr/lib/libpng.so.3 ]; then 
-        su -c 'rm /lib32/libpng.so.3' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c 'rm /lib32/libpng.so.3' >> /tmp/canon-printing_Install.log 2>&1
 fi
 if [ -f /usr/share/ppd/canonmp620-630_Universal.ppd ]; then
-        su -c 'rm /usr/share/ppd/canonmp*' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c 'rm /usr/share/ppd/canonmp*' >> /tmp/canon-printing_Install.log 2>&1
 fi 
 if [ -f /usr/share/ppd/canonip1800_Universal.ppd ]; then
-        su -c 'rm /usr/share/ppd/canonip*' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c 'rm /usr/share/ppd/canonip*' >> /tmp/canon-printing_Install.log 2>&1
 fi
 if [ ! /lib/i386-linux-gnu/libpng.so.3 ];then
-        su -c 'rm /lib/i386-linux-gnu/libpng.so.3' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c 'rm /lib/i386-linux-gnu/libpng.so.3' >> /tmp/canon-printing_Install.log 2>&1
 fi
 if [ ! /usr/lib/i386-linux-gnu/libtiff.so.3 ];then
-        su -c 'rm /usr/lib/i386-linux-gnu/libtiff.so.3' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c 'rm /usr/lib/i386-linux-gnu/libtiff.so.3' >> /tmp/canon-printing_Install.log 2>&1
 fi
 
-echo ' ---------------------- Purge Complete ---------------------- ' >> ~/canon-install.log/canon-printing_Install.log 2>&1
-
-if [ ! -d ~/canon-install.log ]; then
-        echo -e '\nCreating The Log Location'
-        su -c 'mkdir ~/canon-install.log/' >> ~/canon-install.log/canon-printing_Install.log 2>&1
-fi
+echo ' ---------------------- Purge Complete ---------------------- ' >> /tmp/canon-printing_Install.log 2>&1
 
 echo -e "\n\033[1;31mUpdating Packages\033[0m"
         su -c 'apt-get update' > /dev/null 2>&1
 
 CHECKGDEB=$(dpkg -l | grep -o gdebi-core)
-if [ "$CHECKGDEB" ];then
-    echo -e "\n\033[1;31mInstalling \"gdebi\" tool"
-        su -c 'apt-get install gdebi-core' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+if [ ! "$CHECKGDEB" ];then
+    echo -e "\n\033[1;31mInstalling \"gdebi\" tool\033[0m"
+        su -c 'apt-get -y install gdebi-core' >> /tmp/canon-printing_Install.log 2>&1
 fi
 
 if [ `uname -m` = "x86_64" ]; then
-        su -c 'apt-get -y install ia32-libs' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c 'apt-get -y install ia32-libs' >> /tmp/canon-printing_Install.log 2>&1
         if [ $? -ne 0 ] ; then
         echo -e '\nI am sorry though you are using a x64 system and the apt-get package management system failed to install ia32-libs.'  
         echo 'The package ia32-libs is needed to continue...'
@@ -163,15 +158,15 @@ if [ `uname -m` = "x86_64" ]; then
         fi
                 if [ -e /lib32/libpng12.so.[0-9].* ]; then
                         echo 'Creating a Symbolic Link to libpng12 /lib32/libpng.so.3'
-                        ln -sf /lib32/libpng12.so.[0-9].* /lib32/libpng.so.3 >> ~/canon-install.log/canon-printing_Install.log 2>&1
+                        ln -sf /lib32/libpng12.so.[0-9].* /lib32/libpng.so.3 >> /tmp/canon-printing_Install.log 2>&1
                 fi
                 if [ -e /usr/lib32/libpng12.so.[0-9].* ]; then
                         echo 'Creating a Symbolic Link to libpng12 /usr/lib32/libpng.so.3'
-                        ln -sf /usr/lib32/libpng12.so.[0-9].* /usr/lib32/libpng.so.3 >> ~/canon-install.log/canon-printing_Install.log 2>&1
+                        ln -sf /usr/lib32/libpng12.so.[0-9].* /usr/lib32/libpng.so.3 >> /tmp/canon-printing_Install.log 2>&1
                 fi
                 if [ -e /usr/lib32/libtiff.so.[0-9].* ]; then
                         echo 'Creating a Symbolic Link to libtiff /usr/lib32/libtiff.so.3'
-                        ln -sf /usr/lib32/libtiff.so.[0-9].* /usr/lib32/libtiff.so.3 >> ~/canon-install.log/canon-printing_Install.log 2>&1
+                        ln -sf /usr/lib32/libtiff.so.[0-9].* /usr/lib32/libtiff.so.3 >> /tmp/canon-printing_Install.log 2>&1
                 fi
 
                 if [ "`echo yes|awk \"{if ($UBUNTUCODEOS > 11.10) print $1}\"`" == "yes" ];then
@@ -183,15 +178,15 @@ if [ `uname -m` = "x86_64" ]; then
 elif [ `uname -m` = i686 ] ; then
                 if [ -e /lib/libpng12.so.[0-9].* ] ; then
                         echo 'Creating a Symbolic Link to libpng12 /lib/libpng.so.3'
-                        ln -sf /lib/libpng12.so.[0-9].* /lib/libpng.so.3 >> ~/canon-install.log/canon-printing_Install.log 2>&1
+                        ln -sf /lib/libpng12.so.[0-9].* /lib/libpng.so.3 >> /tmp/canon-printing_Install.log 2>&1
                 fi
                 if [ -e /usr/lib/libpng12.so.[0-9].* ] ; then
                         echo 'Creating a Symbolic Link to libpng12 /usr/lib/libpng.so.3'
-                        ln -sf /usr/lib/libpng12.so.[0-9].* /usr/lib/libpng.so.3 >> ~/canon-install.log/canon-printing_Install.log 2>&1
+                        ln -sf /usr/lib/libpng12.so.[0-9].* /usr/lib/libpng.so.3 >> /tmp/canon-printing_Install.log 2>&1
                 fi
                 if [ -e /usr/lib/libtiff.so.[0-9].* ] ; then
                         echo 'Creating a Symbolic Link to libtiff /usr/lib/libtiff.so.3'
-                        ln -sf /usr/lib/libtiff.so.[0-9].* /usr/lib/libtiff.so.3 >> ~/canon-install.log/canon-printing_Install.log 2>&1
+                        ln -sf /usr/lib/libtiff.so.[0-9].* /usr/lib/libtiff.so.3 >> /tmp/canon-printing_Install.log 2>&1
                 fi
 	else
 
@@ -204,7 +199,7 @@ fi
 if [ ! `echo $CODENAME | grep -i "ubuntu" | awk '{print $3}' | awk -F '.' '$1>10'` ];then 
   if [ -d ./dummy ];then 
     echo -e "\n\033[1;31mConfiguring CUPS\033[0m"; 
-    su -c 'dpkg -i ./dummy/libcupsys2_1.3.9-17ubuntu3.9_all.deb' >> ~/canon-install.log/canon-printing_Install.log 2>&1  
+    su -c 'dpkg -i ./dummy/libcupsys2_1.3.9-17ubuntu3.9_all.deb' >> /tmp/canon-printing_Install.log 2>&1  
     else
       echo "You are running this script from a directory that does not contain the required dependencies."
       EXITERROR
@@ -213,7 +208,7 @@ fi
 
 if [ -d ./debs ];then 
 echo -e "\n\033[1;31mInstalling Printer Packages\033[0m"
-        su -c 'dpkg -i ./debs/*.deb' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c 'for PACKAGES in $(ls ./debs/*.deb); do gdebi -n $PACKAGES; done' >> /tmp/canon-printing_Install.log 2>&1
   else
     echo "You are running this script from a directory that does not contain the required dependencies."
     EXITERROR
@@ -230,7 +225,7 @@ fi
 
 echo -e "\n\033[1;31mRestarting CUPS\033[0m"
 if [ -f /etc/init.d/cups ];then 
-        su -c '/etc/init.d/cups restart' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+        su -c '/etc/init.d/cups restart' >> /tmp/canon-printing_Install.log 2>&1
 fi
 
 if [ -d ./ppd ];then 
@@ -242,19 +237,17 @@ echo -e "\n\033[1;31mMoving Universal PPD file into place for Use\033[0m"
     EXITERROR
 fi
 
-su -c 'service cups restart' >> ~/canon-install.log/canon-printing_Install.log 2>&1
+su -c 'service cups restart' >> /tmp/canon-printing_Install.log 2>&1
 
-clear
-echo -e "Enter the IP address for the printer. If you do not know it,\nor if you are using a dynamic IP address leave it Blank.\nThis entry has been shown to improve the speed of the scanner.\n( Thank you Pierre Chauveau http://free.fr )"
+echo -e "\n\nEnter the IP address for the printer. If you do not know it,\nor if you are using a dynamic IP address leave it Blank.\nThis entry has been shown to improve the speed of the scanner.\n( Thank you Pierre Chauveau http://free.fr )"
 echo -e "\nAfter your entry press [ Enter ] to continue."
 read -p "IP Address : " PRINTERIP
 
 echo "# *** # Printer IP Address # *** #
 ${PRINTERIP}" >> /etc/hosts
 
-clear
 echo ""
-echo -e "\033[1;35m********* READ THIS AND PAY ATTENTION *********\033[0m"
+echo -e "\n\033[1;35m********* READ THIS AND PAY ATTENTION *********\033[0m"
         sleep 3
 echo 'The Printer configuration and Setup window will now Open'
 echo 'Once it opens click add'
@@ -281,10 +274,9 @@ echo "* Complete the installation and print a test page."
 echo -e "\033[1;35m********* READ THIS AND PAY ATTENTION *********\033[0m"
 read -p "Press [ Enter ] to Continue"
         system-config-printer > /dev/null 2>&1
-clear
 echo ''
 echo ""
-echo "A log file has been placed in the directory /canon-install.log/"
+echo "A log file has been placed built at /tmp/canon-printing_Install.log"
 echo "Please refer to this LOG file for any Installation Errors"
 echo ""
 echo 'This script was created by Kevin Carter For More information'
