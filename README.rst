@@ -2,8 +2,10 @@ MP 620 - 630 | Debian Based Univeral Installer
 ##############################################
 
 This Works for ALL Debian Based Systems
-  This Installer has been built for x86 and x86\_64. The Installer has been tested on 
-  Ubuntu 8.04 - 12.04, Debian 5 - 6, and Mint 10 - 12.
+  This Installer has been built for x86 and x86\_64. The Installer has been tested on :
+  * Ubuntu 8.04 - 12.04
+  * Debian 5 - 6 
+  * Mint 10 - 12.
 
   The Universal install has been updated to Version 5.0 and now provides a function to clean up old packages, additionally there is no more compiling, the installer uses all precompiled DEBS which will allow for easy upgrading later as well as better capabillity to uninstall if need be.
 
@@ -89,9 +91,9 @@ detecting the Canon Printer in the detected Printers field you can
 input the IP address manually
 
 Select Canon Networking type 
-  A bar will open up and allow you to input the Printer protocol, IP and port
-  The input should look like: ``bjnp://X.X.X.X:8611`` (*Replace "X" with the IP address of the Printer*)
-  Now click forward through the menu and make sure you select the Canon Driver set with the "MP630 ver.3.00" Driver. Complete the installation and print a test page.
+  * A bar will open up and allow you to input the Printer protocol, IP and port
+  * The input should look like: ``bjnp://X.X.X.X:8611`` (*Replace "X" with the IP address of the Printer*)
+  * Now click forward through the menu and make sure you select the Canon Driver set with the "MP630 ver.3.00" Driver. Complete the installation and print a test page.
 
 --------------
 
