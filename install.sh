@@ -13,6 +13,16 @@
 ## let me know.  http://rackerua.com                              ##
 ####################################################################
 
+<<<<<<< HEAD
+trap CONTROL_C SIGINT
+
+CONTROL_C(){
+echo ''
+echo "AAHAHAAHH! FIRE! CRASH AND BURN!"
+echo "     You Pressed [ CTRL C ]     "
+	EXITERROR
+}
+=======
 ####################################################################
 ############################ Change Log ############################
 ## -------------------------------------------------------------- ##
@@ -27,6 +37,7 @@
 ## 16.05.12 Colorized Headers for script actions                  ##
 ## 24.08.12 Rewrote installer, and repackaged everything.         ##
 ## -------------------------------------------------------------- ##
+>>>>>>> 392752b2b0004e92550927fcdef95927e2e0e65d
 
 clear
 echo "Version 5.0-Beta2 - Universal"
@@ -68,7 +79,11 @@ if [ -f /tmp/canon-printing_Install.log ];then
 fi 
 
 EXITERROR(){
+<<<<<<< HEAD
+        echo -e '\nPlease contact Kevin at info@bkintegration.com to see if there is an update for this Installation.\nLog file for the installation of the Drivers is in your temp Folder located at /tmp/canon-printing_Install.log\n'
+=======
         echo -e '\nPlease contact Kevin at info@bkintegration.com to see if there is an update for this Installation.\nLog file for the installation of the Drivers is in your Home Folder\n'
+>>>>>>> 392752b2b0004e92550927fcdef95927e2e0e65d
         read -p "Press [ Enter ] to Exit"
         exit 1
         }
@@ -199,9 +214,24 @@ elif [ `uname -m` = i686 ] ; then
 	else
 
 ARCHITE=$(uname -m)
+<<<<<<< HEAD
+	echo -e "\nI apologize though at this time I have not devised a way to support your architecture\nYour system is running \"$ARCHITE\". However you can continue this installation,\n\033[1;34mBut I Can't Guarantee that its going to work.\033[0m\n\nIf you want to continue the installation type \"yes\" and press enter. To quit type anything else and press enter." 
+		read -p "Do you want to continue? : " ARCHITEFAIL
+case "$ARCHITEFAIL" in
+yes | YES | Yes )
+echo -e "We are going into undeveloped territory, good luck and let me know what happens.\nPlease send results to info@bkintegration.com"
+;;
+*)
+echo -e "Better safe than sorry right..."
+EXITERROR
+;;
+esac
+
+=======
         echo -e "\nI apologize though at this time I have not devised a way to support your architecture"
         echo -e "Your system is running $ARCHITE\n"
                 EXITERROR
+>>>>>>> 392752b2b0004e92550927fcdef95927e2e0e65d
 fi
 
 if [ ! `echo $CODENAME | grep -i "ubuntu" | awk '{print $3}' | awk -F '.' '$1>10'` ];then 
@@ -218,7 +248,11 @@ if [ -d ./debs ];then
 echo -e "\n\033[1;31mInstalling Printer Packages\033[0m"
         su -c 'for PACKAGES in $(ls ./debs/*.deb); do gdebi -n $PACKAGES; done' >> /tmp/canon-printing_Install.log 2>&1
   else
+<<<<<<< HEAD
+    echo -e "You are running this script from a directory that does not contain the required dependencies. You are here \"$(pwd)\""
+=======
     echo "You are running this script from a directory that does not contain the required dependencies."
+>>>>>>> 392752b2b0004e92550927fcdef95927e2e0e65d
     EXITERROR
 fi
 
@@ -293,4 +327,7 @@ echo 'Please let me know, I want to here from you...'
 echo ''
 echo 'Goto http://rackerua.com'
 echo ''
+<<<<<<< HEAD
+=======
 
+>>>>>>> 392752b2b0004e92550927fcdef95927e2e0e65d

@@ -1,0 +1,13 @@
+############################ Change Log ############################
+## 18.10.11 Added Printer IP address to the host Make
+## 18.10.11 Added to the script for installation by default
+## 31.10.11 Added If to installer in CUPS setup for Ubuntu >10
+## 30.01.12 Added more robust Logging / Better OS Detection
+## 11.05.12 Added Functionality for Ubuntu 12.04 x64
+## 11.05.12 Added Symlinks and Package installs for Ubuntu 12.04+
+## 16.05.12 Fixed a bug in Package Purge; caused broken packages
+## 16.05.12 Added to the reading section at end of installation
+## 16.05.12 Colorized Headers for script actions
+## 24.08.12 Rewrote installer, and repackaged everything.
+## 16.09.12 Changed dependencies on the new BJNP Package.
+## 16.09.12 Added the case to install if ARCH cant be found 
