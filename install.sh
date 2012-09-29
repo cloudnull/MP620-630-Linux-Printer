@@ -29,7 +29,7 @@ USER=$(whoami)
 ARCH=$(uname -m)
 DATE=$(date +-%Y-%m-%d-%H%M)
 UBUNTUCODEOS=$(lsb_release -r | awk '{print $2}')
-
+KERNELNUM=$(uname -r | awk -F '-' '{print $1}')
 if [ `which lsb_release` ];then
         CODENAME=$(lsb_release -d)
                 else
@@ -225,8 +225,8 @@ echo -e "\n\033[1;31mInstalling Printer Packages\033[0m"
     EXITERROR
 fi
 
-if [ "`echo yes|awk \"{if ($UBUNTUCODEOS >= 11.10) print $1}\"`" == "yes" ];then
-        if [ -f 80-canon_mfp.rules ];then
+if [ "`echo yes|awk \"{if ($KERNELNUM >= 3.0) print $1}\"`" == "yes" ];then
+        if [ -f /etc/udev/rules.d/80-canon_mfp.rules ];then
                 echo ''
                 echo -e "\033[1;35mModifying the UDEV Rules for the printer Driver to accomodate the UDEV Rule Changes.\033[0m"
                 echo "Thank you 'Nero Ubuntu' for finding this."
