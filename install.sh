@@ -162,6 +162,7 @@ echo -e "\033[1;31mSwitching to bjnp Directory\033[0m"
 
 echo -e "\033[1;31mBuilding BJNP Networking\033[0m"
     su -c './configure && make && make install' >> /tmp/canon-printing_Install.log 2>&1
+    cd ../
 
 if [ `uname -m` = "x86_64" ]; then
 echo -e '\nInstalling the 32Bit Libraries for the system'
