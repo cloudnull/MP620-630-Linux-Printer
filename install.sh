@@ -4,7 +4,7 @@
 # - author       : Kevin Carter
 # - License      : GPLv3
 # - date         : 2012-08-24
-# - version      : 5B2
+# - version      : 5B3
 # - Notes       ------------------------------------------------- ##
 ## This script was created by Kevin Carter and BK Integration     ##
 ## This script is for use under GPLv3 and you should feel free to ##
@@ -23,7 +23,7 @@ echo "     You Pressed [ CTRL C ]     "
 }
 
 clear
-echo "Version 5.0-Beta2 - Universal"
+echo "Version 5.0-Beta3 - Universal"
 
 USER=$(whoami)
 ARCH=$(uname -m)
@@ -149,6 +149,19 @@ if [ ! "$CHECKGDEB" ];then
     echo -e "\n\033[1;31mInstalling \"gdebi\" tool\033[0m"
         su -c 'apt-get -y install gdebi-core' >> /tmp/canon-printing_Install.log 2>&1
 fi
+
+echo -e "\033[1;31mInstalling any and all dependencies for Printing and Scanning\033[0m"
+    su -c 'apt-get -y install libcupsys2-dev libgcc1 libatk1.0-0 libc6 libcairo2 libfontconfig1 libgimp2.0 libglib2.0-0 libgtk2.0-0 libpango1.0-0 libpng12-0 libstdc++6 libusb-0.1-4 libx11-6 libxcursor1 libxext6 libxfixes3 libxi6 libxinerama1 libxrandr2 libxrender1 zlib1g cups cups-client make gcc' >> /tmp/canon-printing_Install.log 2>&1
+    
+echo -e "\033[1;31mChanging files to root ownership\033[0m"
+    su -c 'chown root:root -R ./bjnp' >> /tmp/canon-printing_Install.log 2>&1
+
+echo -e "\033[1;31mSwitching to bjnp Directory\033[0m"
+    cd ./bjnp 
+    su -c 'chmod +x configure' >> /tmp/canon-printing_Install.log 2>&1
+
+echo -e "\033[1;31mBuilding BJNP Networking\033[0m"
+    su -c './configure && make && make install' >> /tmp/canon-printing_Install.log 2>&1
 
 if [ `uname -m` = "x86_64" ]; then
 echo -e '\nInstalling the 32Bit Libraries for the system'
