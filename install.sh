@@ -107,6 +107,11 @@ CHECK9=$(dpkg -l | grep -o cups-bjnp | cut -d " " -f 3)
 if [ "$CHECK9" ] > /dev/null 2>&1;then
         su -c 'dpkg -l | grep -o cups-bjnp | cut -d " " -f 3 | xargs dpkg -P' >> /tmp/canon-printing_Install.log 2>&1
 fi
+CHECK10=$(dpkg -l | grep -o cups-bjnp_1.0-1_all | cut -d " " -f 3)
+if [ "$CHECK10" ] > /dev/null 2>&1;then
+        su -c 'dpkg -l | grep -o cups-bjnp_1.0-1_all | cut -d " " -f 3 | xargs dpkg -P' >> /tmp/canon-printing_Install.log 2>&1
+fi
+
 
 if [ ! /lib32/libpng.so.3 ]; then 
         su -c 'rm /lib32/libpng.so.3' >> /tmp/canon-printing_Install.log 2>&1
