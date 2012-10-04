@@ -4,7 +4,7 @@
 # - author       : Kevin Carter
 # - License      : GPLv3
 # - date         : 2012-08-24
-# - version      : 5B3
+# - version      : 5B4
 # - Notes       ------------------------------------------------- ##
 ## This script was created by Kevin Carter and BK Integration     ##
 ## This script is for use under GPLv3 and you should feel free to ##
@@ -23,7 +23,7 @@ echo "     You Pressed [ CTRL C ]     "
 }
 
 clear
-echo "Version 5.0-Beta3 - Universal"
+echo "Version 5.0-Beta4 - Universal"
 
 USER=$(whoami)
 ARCH=$(uname -m)
