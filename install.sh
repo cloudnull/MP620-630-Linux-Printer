@@ -156,13 +156,14 @@ if [ ! "$CHECKGDEB" ];then
 fi
 
 echo -e "\033[1;31mInstalling any and all dependencies for Printing and Scanning\033[0m"
-    su -c 'apt-get -y install libgcc1 libcups2-dev libatk1.0-0 libc6 libcairo2 libfontconfig1 libgimp2.0 libglib2.0-0 libgtk2.0-0 libpango1.0-0 libpng12-0 libstdc++6 libusb-0.1-4 libx11-6 libxcursor1 libxext6 libxfixes3 libxi6 libxinerama1 libxrandr2 libxrender1 zlib1g cups cups-client make gcc' >> /tmp/canon-printing_Install.log 2>&1
+    su -c 'apt-get -y install libgcc1 libatk1.0-0 libc6 libcairo2 libfontconfig1 libgimp2.0 libglib2.0-0 libgtk2.0-0 libpango1.0-0 libpng12-0 libstdc++6 libusb-0.1-4 libx11-6 libxcursor1 libxext6 libxfixes3 libxi6 libxinerama1 libxrandr2 libxrender1 zlib1g cups cups-client make gcc' >> /tmp/canon-printing_Install.log 2>&1
 
-#if [ $(lsb_release -rs) = "13.04" ]; then
-#	su -c 'apt-get install libcups2-dev' >> /tmp/canon-printing_Install.log 2>&1
-#else
-#	su -c 'apt-get install libcupsys2-dev' >> /tmp/canon-printing_Install.log 2>&1
-#fi
+su -c 'apt-get install -y libcupsys2-dev' >> /tmp/canon-printing_Install.log 2>&1
+
+if [ $? -ne "0" ]; then
+	echo -e "\033[1;31mNo libcusys2-dev. Trying libcups2-dev\033[0m"
+	su -c 'apt-get install -y libcups2-dev' /tmp/canon-printing_Install.log 2>&1
+fi
 
 echo -e "\033[1;31mChanging files to root ownership\033[0m"
     su -c 'chown root:root -R ./bjnp' >> /tmp/canon-printing_Install.log 2>&1
