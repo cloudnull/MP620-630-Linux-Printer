@@ -448,7 +448,7 @@ Copyright (C) 2010 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
-ac_pwd='/home/kevin/temp/cups-bjnp-0.5.5'
+ac_pwd='/home/joachim/progging/MP620-630-Linux-Printer/bjnp'
 srcdir='.'
 INSTALL='/usr/bin/install -c'
 MKDIR_P='/bin/mkdir -p'
@@ -667,7 +667,7 @@ S["CFLAGS"]="-g -O2"
 S["CC"]="gcc"
 S["am__untar"]="${AMTAR} xf -"
 S["am__tar"]="${AMTAR} chof - \"$$tardir\""
-S["AMTAR"]="${SHELL} /home/kevin/temp/cups-bjnp-0.5.5/missing --run tar"
+S["AMTAR"]="${SHELL} /home/joachim/progging/MP620-630-Linux-Printer/bjnp/missing --run tar"
 S["am__leading_dot"]="."
 S["SET_MAKE"]=""
 S["AWK"]="mawk"
@@ -675,12 +675,12 @@ S["mkdir_p"]="/bin/mkdir -p"
 S["MKDIR_P"]="/bin/mkdir -p"
 S["INSTALL_STRIP_PROGRAM"]="$(install_sh) -c -s"
 S["STRIP"]=""
-S["install_sh"]="${SHELL} /home/kevin/temp/cups-bjnp-0.5.5/install-sh"
-S["MAKEINFO"]="${SHELL} /home/kevin/temp/cups-bjnp-0.5.5/missing --run makeinfo"
-S["AUTOHEADER"]="${SHELL} /home/kevin/temp/cups-bjnp-0.5.5/missing --run autoheader"
-S["AUTOMAKE"]="${SHELL} /home/kevin/temp/cups-bjnp-0.5.5/missing --run automake-1.11"
-S["AUTOCONF"]="${SHELL} /home/kevin/temp/cups-bjnp-0.5.5/missing --run autoconf"
-S["ACLOCAL"]="${SHELL} /home/kevin/temp/cups-bjnp-0.5.5/missing --run aclocal-1.11"
+S["install_sh"]="${SHELL} /home/joachim/progging/MP620-630-Linux-Printer/bjnp/install-sh"
+S["MAKEINFO"]="${SHELL} /home/joachim/progging/MP620-630-Linux-Printer/bjnp/missing --run makeinfo"
+S["AUTOHEADER"]="${SHELL} /home/joachim/progging/MP620-630-Linux-Printer/bjnp/missing --run autoheader"
+S["AUTOMAKE"]="${SHELL} /home/joachim/progging/MP620-630-Linux-Printer/bjnp/missing --run automake-1.11"
+S["AUTOCONF"]="${SHELL} /home/joachim/progging/MP620-630-Linux-Printer/bjnp/missing --run autoconf"
+S["ACLOCAL"]="${SHELL} /home/joachim/progging/MP620-630-Linux-Printer/bjnp/missing --run aclocal-1.11"
 S["VERSION"]="0.5.5"
 S["PACKAGE"]="cups-bjnp"
 S["CYGPATH_W"]="echo"
