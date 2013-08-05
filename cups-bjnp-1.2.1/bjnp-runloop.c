@@ -20,7 +20,6 @@
  *
  * Contents:
  *
- *   backendDrainOutput() - Removed, integrated in main loop         
  *   backendRunLoop()     - Read and write print and back-channel data.
  */
 
@@ -34,7 +33,9 @@
 #else
 #  include <sys/select.h>
 #endif /* __hpux */
-
+#include <stdio.h>
+#include <signal.h>
+#include <errno.h>
 /*
  * 'backendRunLoop()' - Read and write print and back-channel data.
  */
@@ -42,8 +43,8 @@
 ssize_t				/* O - Total bytes on success, -1 on error */
 bjnp_backendRunLoop (int print_fd,	/* I - Print file descriptor */
 		     int device_fd,	/* I - Device file descriptor */
-		     http_addrlist_t * addrlist)
-					/* I - addresslist for printer */
+		     http_addr_t * addr)
+					/* I - address for printer */
 {
   int send_keep_alive;		/* flag that an empty data packet should be sent to printer */
   int nfds;			/* Maximum file descriptor value + 1 */
@@ -58,20 +59,21 @@ bjnp_backendRunLoop (int print_fd,	/* I - Print file descriptor */
   int offline;			/* "Off-line" status */
   int draining;			/* Drain command recieved? */
   char print_buffer[BJNP_PRINTBUF_MAX],
-    /* Print data buffer */
+                                /* Print data buffer */
    *print_ptr;			/* Pointer into print data buffer */
   struct timeval timeout;
 #if defined(HAVE_SIGACTION) && !defined(HAVE_SIGSET)
   struct sigaction action;	/* Actions for POSIX signals */
 #endif /* HAVE_SIGACTION && !HAVE_SIGSET */
 
-#if (CUPS_VERSION_MAJOR > 1) || (CUPS_VERSION_MINOR >= 3)
+#if BJNP_CUPS_VERSION >= 103
+  int side_channel_open;	/* side channel status */
   cups_sc_command_t command;	/* Request command */
   cups_sc_status_t status;	/* Request/response status */
-  char data[2048];		/* Request/response data */
+  char data[16536];		/* Request/response data */
   int datalen;			/* Request/response data size */
-  char model[256];		/* printer make & model */
-  char dev_id[1024];		/* IEEE1284 device id */
+  char model[BJNP_MODEL_MAX];	/* printer make & model */
+  char dev_id[BJNP_IEEE1284_MAX]; /* IEEE1284 device id */
 #endif /* cups >= 1.3 */
 
   fprintf (stderr,
@@ -106,13 +108,21 @@ bjnp_backendRunLoop (int print_fd,	/* I - Print file descriptor */
 
   nfds = (print_fd > device_fd ? print_fd : device_fd) + 1;
 
+  print_bytes = 0;
+  print_ptr = print_buffer, 
+  offline = -1;
+  paperout = -1;
+  total_bytes = 0;
+  ack_pending = 0;
+  draining = 0;
+  send_keep_alive = 0;
+  side_channel_open = 1;
+
   /*
    * Now loop until we are out of data from print_fd...
    */
 
-  for (print_bytes = 0, print_ptr = print_buffer, offline = -1,
-       paperout = -1, total_bytes = 0, ack_pending = 0, draining =
-       0, send_keep_alive = 0;;)
+  while (1)
     {
       /*
        * Use select() to determine whether we have data to copy around...
@@ -139,8 +149,8 @@ bjnp_backendRunLoop (int print_fd,	/* I - Print file descriptor */
        * Accept side channel data, unless there is print data pending (cups >= 1.3)
        */
 
-#if (CUPS_VERSION_MAJOR > 1) || (CUPS_VERSION_MINOR >= 3)
-      if (!print_bytes && !draining)
+#if  BJNP_CUPS_VERSION >= 103
+      if (side_channel_open && !print_bytes && !draining)
 	FD_SET (CUPS_SC_FD, &input);
 #endif
 
@@ -153,6 +163,7 @@ bjnp_backendRunLoop (int print_fd,	/* I - Print file descriptor */
 	FD_SET (device_fd, &output);
 
       timeout.tv_sec = KEEP_ALIVE_SECONDS;
+
       timeout.tv_usec = 0;
 
       result = select (nfds, &input, &output, NULL, &timeout);
@@ -198,7 +209,7 @@ bjnp_backendRunLoop (int print_fd,	/* I - Print file descriptor */
 	  continue;
 	}
 
-#if (CUPS_VERSION_MAJOR > 1) || (CUPS_VERSION_MINOR >= 3)
+#if BJNP_CUPS_VERSION >= 103
 
       /*
        * Check if we have a side-channel request ready (cups >= 1.3)...
@@ -210,61 +221,88 @@ bjnp_backendRunLoop (int print_fd,	/* I - Print file descriptor */
 	   * Do the side-channel request
 	   */
 
-	  datalen = sizeof (data);
+	  datalen = sizeof (data) -1;
 
-	  if (cupsSideChannelRead (&command, &status, data, &datalen, 1.0))
-	    {
-	      _cupsLangPuts (stderr,
-			     _
-			     ("WARNING: Failed to read side-channel request!\n"));
-	      bjnp_debug (LOG_DEBUG, "Failed to read side-channel request! Status is %d\n",  status);
-	    }
-	  else
+	  if (cupsSideChannelRead (&command, &status, data, &datalen, 1.0) != 0)
+            {
+              /* side channel is closed, or we lost synchronization */
+              side_channel_open = 0;
+            }
+          else
 	    {
 	      bjnp_debug (LOG_DEBUG, "Received side-channel request, command is %d\n",  command);
 	      switch (command)
 		{
-		case CUPS_SC_CMD_NONE:
-		   /* Nothing to do.... */
-		   break;
-
 		case CUPS_SC_CMD_DRAIN_OUTPUT:
+
 		  /*
 		   * Our sockets disable the Nagle algorithm and data is sent immediately.
 		   * 
 		   */
 
 		  draining = 1;
+
+                  /* we will do cupsSideChannelWrite() once there is no data left ! */
 		  break;
 
 		case CUPS_SC_CMD_GET_BIDI:
-		  data[0] = 0;
+                  status = CUPS_SC_STATUS_OK;
+		  data[0] = CUPS_SC_BIDI_NOT_SUPPORTED;
 		  datalen = 1;
-		  cupsSideChannelWrite (command, status, data, datalen, 1.0);
+                  cupsSideChannelWrite (command, status, data, datalen, 1.0);
 		  break;
 
 		case CUPS_SC_CMD_GET_DEVICE_ID:
 		  if (bjnp_backendGetDeviceID
 		      (dev_id, sizeof (dev_id), model, sizeof (model)) == 0)
 		    {
+                      status = CUPS_SC_STATUS_OK;
 		      strncpy (data, dev_id, sizeof (data));
 		      datalen = (int) strlen (data);
-		      cupsSideChannelWrite (command, status, data, datalen,
-					    1.0);
-		      break;
 		    }
+                  else 
+                    {
+                      status =  CUPS_SC_STATUS_IO_ERROR;
+                      datalen = 0;
+                    }
+                  cupsSideChannelWrite (command, status, data, datalen, 1.0);
+		  break;
 
-		default:
+#if BJNP_CUPS_VERSION >= 105
+                case CUPS_SC_CMD_GET_CONNECTED:
+                  status  = CUPS_SC_STATUS_OK;
+                  data[0] = (device_fd != -1);
+                 datalen = 1;
+                  break;
+#endif
+
+                default:
+
+                /* 
+                 * this covers the following values 
+                 *
+                 * case CUPS_SC_CMD_GET_STATE:
+		 * case CUPS_SC_CMD_SOFT_RESET:
+                 *
+                 * for CUPS 1.4 and later 
+                 *
+                 * case CUPS_SC_CMD_SNMP_GET:
+                 * case CUPS_SC_CMD_SNMP_GET_NEXT:
+                 *
+                 * these values should not occur
+		 * case CUPS_SC_CMD_NONE:
+                 * case CUPS_SC_CMD_MAX:
+                 */
+
 		  status = CUPS_SC_STATUS_NOT_IMPLEMENTED;
 		  datalen = 0;
-		  cupsSideChannelWrite (command, status, data, datalen, 1.0);
+                  cupsSideChannelWrite (command, status, data, datalen, 1.0);
 		  break;
 		}
 
 	    }
 	}
 #endif
-
       /*
        * Check if we have back-channel data (ack) ready...
        */
@@ -303,7 +341,7 @@ bjnp_backendRunLoop (int print_fd,	/* I - Print file descriptor */
 	       */
 
 	      if ((paperout != 1)
-		  && (bjnp_get_paper_status (addrlist) == BJNP_PAPER_OUT))
+		  && (bjnp_get_paper_status (addr) == BJNP_PAPER_OUT))
 		{
 		  fputs ("STATE: +media-empty-error\n", stderr);
 		  _cupsLangPuts (stderr, _("ERROR: Out of paper!\n"));
@@ -349,7 +387,7 @@ bjnp_backendRunLoop (int print_fd,	/* I - Print file descriptor */
 	       * End of input file, break out of the loop
 	       */
 
-#if (CUPS_VERSION_MAJOR > 1) || (CUPS_VERSION_MINOR >= 3)
+#if BJNP_CUPS_VERSION >= 103
 	      if (draining)
 		{
 		  command = CUPS_SC_CMD_DRAIN_OUTPUT;

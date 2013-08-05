@@ -1,10 +1,14 @@
 ﻿This is the BJNP protocol backend for CUPS
-It supports both CUPS 1.2 and 1.3.
+It works with cups 1.2 - 1.6 (verified)
 
 CUPS-BJNP can be compiled standalone (when the cups-devel package or your OS 
-equivalent is installed).  It can no longer be compiled in the cups source tree. 
-CUPS-BJNP requires that the cups-devel package is installed on RedHat and Fedora
-systems.
+equivalent is installed, e.g. for Fedora install cups-devel).  
+
+Cups-bjnp is included in a number of distributions so in most cases it is not
+necessary to compile it yourself.
+
+Compiling Cups-bjnp
+===================
 
 Compiling CUPS-BJNP is as simple as:
 ./configure --prefix=/usr 
@@ -13,6 +17,8 @@ make
 In most cases configure will find the backend directory where cups stores its
  backends without help. If it does not, add the --with-cupsbackenddir=xxx
 option to the configure comand line to point configure in the right direction.
+
+Cups-bjnp works over IPv4 and IPv6 (since version 1.1)
 
 For a first test type: ./bjnp 
 
@@ -33,13 +39,6 @@ directory.
 
 configure cups through the web frontend (https://localhost:631), e.g. try 
 tab <administration> <find new printers>
-
-RPM support
-===========
-If you have configured cups-bjnp on your system and you have rpmbuild installed
-you can build an rpm using
-make rpm
-This assunes that you have rpmbuild setup correctly with rpmdev-setuptree.
 
 Debugging
 =========
@@ -73,10 +72,18 @@ Printer detection is slightly more complicated. (cups-bjnp sends a broadcast on
 all subnets it can find. The broadast is sent FROM port 8611 to port 8611. The
 outgoing packets will be allowed by the rule above. Responses from the printer
 are sent back to the computer TO port 8611. Connection tracking however does not
-see a match. You will therefore have to allow packets received TO port 8611.
-
- 
-
+see a match. You will therefore have to allow packets received TO port 8611 as well.
 
 Louis Lagendijk
 louis.lagendijk@gmail.com
+
+ChangeLog
+2012-08-31 Added IPv6 support
+           Refactored into a number of c-files
+2011-07-05 Version 1.0
+           Fixed some warnings from the latest GCC on unused code
+           Made hostname resolution for the printer more robust by verifying
+           that a forward lookup matches the reverse name lookup.
+           This should fix printer detection for some buggy routers that 
+           return a bogus hostname on a reverse lookup
+           Bumped version number to 1.0 the code seems to be stable.

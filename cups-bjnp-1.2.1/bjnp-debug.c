@@ -19,14 +19,7 @@
 
 #include <stdio.h>
 #include <stdarg.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include <sys/time.h>
 #include <sys/timeb.h>
-
-#include <unistd.h>		/* usleep */
-#include <stdint.h>
 #include <errno.h>
 #include "bjnp.h"
 
@@ -45,16 +38,16 @@ typedef struct
 } logtable_entry_t;
 
 static logtable_entry_t logtable[] = {
-  {LOG_NONE, "NONE"},
+  {LOG_NONE,  "NONE"},
   {LOG_EMERG, "EMERG"},
   {LOG_ALERT, "ALERT"},
-  {LOG_CRIT, "CRIT"},
+  {LOG_CRIT,  "CRIT"},
   {LOG_ERROR, "ERROR"},
-  {LOG_WARN, "WARNING"},
-  {LOG_NOTICE, "NOTICE"},
-  {LOG_INFO, "INFO"},
+  {LOG_WARN,  "WARNING"},
+  {LOG_NOTICE,"NOTICE"},
+  {LOG_INFO,  "INFO"},
   {LOG_DEBUG, "DEBUG"},
-  {LOG_DEBUG2, "DEBUG2"},
+  {LOG_DEBUG2,"DEBUG2"},
   {LOG_END, ""}
 };
 
@@ -71,7 +64,6 @@ static int start_msec;
 /* 
  * local functions
  */
-void bjnp_get_time (time_t * sec, uint32_t * usec);
 
 #ifndef NDEBUG
 
@@ -220,7 +212,7 @@ bjnp_debug (bjnp_loglevel_t level, const char *fmt, ...)
 	}
       sec = timebuf.time - start_sec;
 
-      fprintf (debug_file, "%s: %03d.%03d %s", level2str (level), sec, msec,
+      fprintf (debug_file, "%8s: %03d.%03d %s", level2str (level), sec, msec,
 	       printbuf);
     }
 }

@@ -1,10 +1,5 @@
-- add support for CUPS 1.4
-- there are still parts in the code marked as TODO
-- check if off-line event can happen, or if it always means printer off.
-  if so, we may need to restart the printjob!!
-- Check payload length in all set_cmd calls. Sometimes we send total length, sometimes payload
-- serial in protocol is 16 bit, not 32!
-- try broadcast a numer of times to allow for packet loss
+TODO:
+-
 
 DONE:
 - cleanup debugging code to better integrate with CUPS logging and debugging support 
@@ -26,5 +21,11 @@ DONE:
 - cleanup error handling (there are too many exit statements in the code
 - Still need to put sourceforge as source in spec files
 - Improve error handling for calls to select: 0 and -1 must be treated separately
-    
+- add support for CUPS 1.4, there were no additions required
+- try broadcast a numer of times to allow for packet loss
+- serial in protocol is 16 bit, not 32!
+- there are still parts in the code marked as TODO
+- Check payload length in all set_cmd calls. Sometimes we send total length, sometimes payload
+- check if off-line event can happen, or if it always means printer off.
+  if so, we may need to restart the printjob!!
 

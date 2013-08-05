@@ -1,4 +1,101 @@
 ------------------------------------------------------------------------
+r149 | louis | 2012-09-22 22:48:25 +0200 (Sat, 22 Sep 2012) | 5 lines
+
+More refactoring:
+- split bjnp.h in a common include and one for the protocol definitions
+- combined definitions for the protocol commands and responses in common types
+- cleanup of configure.ac
+
+------------------------------------------------------------------------
+r148 | louis | 2012-09-22 13:07:28 +0200 (Sat, 22 Sep 2012) | 2 lines
+
+Demoted a number of logging statements to DEBUG level to make thebackend less noisy
+
+------------------------------------------------------------------------
+r147 | louis | 2012-09-22 00:32:05 +0200 (Sat, 22 Sep 2012) | 14 lines
+
+Fixed compilation on MacOSX
+
+------------------------------------------------------------------------
+r146 | louis | 2012-09-21 21:45:31 +0200 (Fri, 21 Sep 2012) | 2 lines
+
+Updated side channel handling. This fixes a long standing "failed to read side-channel" error message
+
+------------------------------------------------------------------------
+r145 | louis | 2012-09-19 00:35:23 +0200 (Wed, 19 Sep 2012) | 4 lines
+
+Fixed annoying "failed to read side channel" bug: 
+Receiving a 0 length response (BAD COMMAND) is ok!
+Could be EOF
+
+------------------------------------------------------------------------
+r144 | louis | 2012-09-12 22:47:17 +0200 (Wed, 12 Sep 2012) | 1 line
+
+Added support for CUPS_SC_CMD_GET_CONNECTED
+------------------------------------------------------------------------
+r143 | louis | 2012-09-12 22:41:35 +0200 (Wed, 12 Sep 2012) | 1 line
+
+more changes to support IPv6/ corrected sidechannel handling
+------------------------------------------------------------------------
+r142 | louis | 2012-09-01 00:20:00 +0200 (Sat, 01 Sep 2012) | 2 lines
+
+updated TODO
+
+------------------------------------------------------------------------
+r141 | louis | 2012-08-31 23:01:44 +0200 (Fri, 31 Aug 2012) | 2 lines
+
+Added IPv6 printer discovery
+
+------------------------------------------------------------------------
+r140 | louis | 2012-08-30 15:25:38 +0200 (Thu, 30 Aug 2012) | 2 lines
+
+Refactoring started. Compiles but untested
+
+------------------------------------------------------------------------
+r139 | louis | 2012-08-24 12:11:05 +0200 (Fri, 24 Aug 2012) | 2 lines
+
+Added IPv6 printing support. Detection still needs to be done
+
+------------------------------------------------------------------------
+r136 | louis | 2011-06-26 00:10:29 +0200 (Sun, 26 Jun 2011) | 3 lines
+
+1.0 release
+
+
+------------------------------------------------------------------------
+r135 | louis | 2011-06-25 23:52:34 +0200 (Sat, 25 Jun 2011) | 2 lines
+
+Updated TODO, most items were already done
+
+------------------------------------------------------------------------
+r134 | louis | 2011-06-25 23:49:31 +0200 (Sat, 25 Jun 2011) | 2 lines
+
+Added 0.5.5-3 spec file
+
+------------------------------------------------------------------------
+r133 | louis | 2011-06-25 23:47:22 +0200 (Sat, 25 Jun 2011) | 2 lines
+
+Made compilation work on older cups versions again
+
+------------------------------------------------------------------------
+r132 | louis | 2011-06-25 23:02:44 +0200 (Sat, 25 Jun 2011) | 5 lines
+
+Removed some unused code
+Added proper check for buggy reverse namelookup (do a forward lookup
+on the returned name and use it only if it really resolves to the 
+IP-address
+
+------------------------------------------------------------------------
+r131 | louis | 2010-11-27 18:45:50 +0100 (Sat, 27 Nov 2010) | 2 lines
+
+Fixes for IPv6, release 0.5.5
+
+------------------------------------------------------------------------
+r130 | louis | 2009-05-29 21:58:57 +0200 (Fri, 29 May 2009) | 2 lines
+
+Updated Changelog and NEWS for the 05.4 release
+
+------------------------------------------------------------------------
 r129 | louis | 2009-05-29 20:59:41 +0200 (Fri, 29 May 2009) | 10 lines
 
 * Fri May 29 2009 Louis Lagendijk <llagendijk@users.sourceforge.net> - 0.5.4-1
@@ -173,24 +270,12 @@ If so, we use a global broadcast. This will fail when we have more than one ipv4
 capable interface. 
 
 ------------------------------------------------------------------------
-r99 | louis | 2008-11-18 21:59:22 +0100 (Tue, 18 Nov 2008) | 1 line
-
-Release version 0.4 of cups-bjnp
-------------------------------------------------------------------------
-r98 | louis | 2008-11-18 21:59:22 +0100 (Tue, 18 Nov 2008) | 1 line
-
-Removed tag version cups-bjnp-0.4 due to re-release
-------------------------------------------------------------------------
 r97 | louis | 2008-11-18 21:59:17 +0100 (Tue, 18 Nov 2008) | 4 lines
 
 Added 15 sec delay after printjob to make some printers happy that otherwise do
 no accept a new printjob (ZEDO)
 Updated TODO and Changelog
 
-------------------------------------------------------------------------
-r96 | louis | 2008-11-18 21:56:30 +0100 (Tue, 18 Nov 2008) | 1 line
-
-Release version 0.4 of cups-bjnp
 ------------------------------------------------------------------------
 r95 | louis | 2008-11-17 23:34:10 +0100 (Mon, 17 Nov 2008) | 2 lines
 
@@ -248,23 +333,11 @@ r86 | louis | 2008-10-09 23:03:34 +0200 (Thu, 09 Oct 2008) | 2 lines
 Re-added specfiles
 
 ------------------------------------------------------------------------
-r85 | louis | 2008-10-09 22:37:13 +0200 (Thu, 09 Oct 2008) | 1 line
-
-Release version 0.3 of cups-bjnp
-------------------------------------------------------------------------
-r84 | louis | 2008-10-09 22:37:13 +0200 (Thu, 09 Oct 2008) | 1 line
-
-Removed tag version cups-bjnp-0.3 due to re-release
-------------------------------------------------------------------------
 r83 | louis | 2008-10-09 22:37:12 +0200 (Thu, 09 Oct 2008) | 3 lines
 
 fixed some erors in the spec files.
 Fixed description of DIST_DIR in INSTALL files and added description in Makefile
 
-------------------------------------------------------------------------
-r82 | louis | 2008-10-07 23:56:00 +0200 (Tue, 07 Oct 2008) | 1 line
-
-Release version 0.3 of cups-bjnp
 ------------------------------------------------------------------------
 r81 | louis | 2008-10-07 23:55:59 +0200 (Tue, 07 Oct 2008) | 2 lines
 
@@ -325,34 +398,10 @@ r71 | louis | 2008-10-04 13:56:07 +0200 (Sat, 04 Oct 2008) | 2 lines
 sone cleanup with feedback from Sane-BJNP (revised protocol codes etc)
 
 ------------------------------------------------------------------------
-r70 | louis | 2008-08-09 14:50:11 +0200 (Sat, 09 Aug 2008) | 1 line
-
-Release version 0.2 of cups-bjnp
-------------------------------------------------------------------------
-r69 | louis | 2008-08-09 14:50:11 +0200 (Sat, 09 Aug 2008) | 1 line
-
-Removed tag version cups-bjnp-0.2 due to re-release
-------------------------------------------------------------------------
 r68 | louis | 2008-08-09 14:50:01 +0200 (Sat, 09 Aug 2008) | 2 lines
 
 minor bugfixes for off-line behaviour
 
-------------------------------------------------------------------------
-r67 | louis | 2008-08-09 14:47:35 +0200 (Sat, 09 Aug 2008) | 1 line
-
-Release version 0.2 of cups-bjnp
-------------------------------------------------------------------------
-r66 | louis | 2008-08-09 14:47:35 +0200 (Sat, 09 Aug 2008) | 1 line
-
-Removed tag version cups-bjnp-0.2 due to re-release
-------------------------------------------------------------------------
-r65 | louis | 2008-08-09 13:54:04 +0200 (Sat, 09 Aug 2008) | 1 line
-
-Release version 0.2 of cups-bjnp
-------------------------------------------------------------------------
-r64 | louis | 2008-08-09 13:54:04 +0200 (Sat, 09 Aug 2008) | 1 line
-
-Removed tag version cups-bjnp-0.2 due to re-release
 ------------------------------------------------------------------------
 r63 | louis | 2008-08-09 13:54:03 +0200 (Sat, 09 Aug 2008) | 3 lines
 
@@ -360,32 +409,15 @@ Corrected sequence in changelog of SPEC files
 Changed make-dist to first remove release ag if it already exists
 
 ------------------------------------------------------------------------
-r62 | louis | 2008-08-09 13:47:20 +0200 (Sat, 09 Aug 2008) | 1 line
-
-Release version 0.2 of cups-bjnp
-------------------------------------------------------------------------
 r61 | louis | 2008-08-09 13:47:19 +0200 (Sat, 09 Aug 2008) | 2 lines
 
 Changelog for 0.2
 
 ------------------------------------------------------------------------
-r60 | louis | 2008-08-09 13:47:01 +0200 (Sat, 09 Aug 2008) | 1 line
-
-Release version 0.2 of cups-bjnp
-------------------------------------------------------------------------
 r59 | louis | 2008-08-09 13:47:00 +0200 (Sat, 09 Aug 2008) | 2 lines
 
 Final cleanups for trelease 0.2
 
-------------------------------------------------------------------------
-r58 | louis | 2008-08-09 13:13:06 +0200 (Sat, 09 Aug 2008) | 2 lines
-
-erroneous commit of version 0.11 removed
-
-------------------------------------------------------------------------
-r57 | louis | 2008-08-09 13:09:10 +0200 (Sat, 09 Aug 2008) | 1 line
-
-Release version 0.11 of cups-bjnp
 ------------------------------------------------------------------------
 r56 | louis | 2008-08-09 13:08:05 +0200 (Sat, 09 Aug 2008) | 2 lines
 
@@ -417,28 +449,10 @@ Changed make-dist to genereate Changelog
 Updated Changelog
 
 ------------------------------------------------------------------------
-r52 | louis | 2008-08-07 23:22:30 +0200 (Thu, 07 Aug 2008) | 1 line
-
-Release version 0.1 of cups-bjnp
-------------------------------------------------------------------------
-r51 | louis | 2008-08-07 23:22:26 +0200 (Thu, 07 Aug 2008) | 3 lines
-
-Yet another delete of release 0.1
-
-
-------------------------------------------------------------------------
-r50 | louis | 2008-08-07 23:21:04 +0200 (Thu, 07 Aug 2008) | 1 line
-
-Release version 0.1 of cups-bjnp
-------------------------------------------------------------------------
 r49 | louis | 2008-08-07 23:20:59 +0200 (Thu, 07 Aug 2008) | 2 lines
 
 Updated Release notes and changelog for version 0.1
 
-------------------------------------------------------------------------
-r48 | louis | 2008-08-07 22:30:42 +0200 (Thu, 07 Aug 2008) | 1 line
-
-Release version 0.1 of cups-bjnp
 ------------------------------------------------------------------------
 r47 | louis | 2008-08-07 22:30:41 +0200 (Thu, 07 Aug 2008) | 2 lines
 
@@ -450,43 +464,15 @@ r46 | louis | 2008-08-07 22:28:59 +0200 (Thu, 07 Aug 2008) | 2 lines
 parameterized make-dist
 
 ------------------------------------------------------------------------
-r45 | louis | 2008-08-07 22:24:46 +0200 (Thu, 07 Aug 2008) | 3 lines
-
-remove test check in of 0.1 version
-
-
-------------------------------------------------------------------------
-r44 | louis | 2008-08-07 22:18:10 +0200 (Thu, 07 Aug 2008) | 1 line
-
-Release version 0.1
-------------------------------------------------------------------------
 r43 | louis | 2008-08-07 22:18:09 +0200 (Thu, 07 Aug 2008) | 2 lines
 
 clean up of make-dist
 
 ------------------------------------------------------------------------
-r42 | louis | 2008-08-07 22:17:41 +0200 (Thu, 07 Aug 2008) | 2 lines
-
-undo faulty commit of 0.1 branch
-
-------------------------------------------------------------------------
-r41 | louis | 2008-08-07 21:57:17 +0200 (Thu, 07 Aug 2008) | 1 line
-
-Release version 0.1
-------------------------------------------------------------------------
 r40 | louis | 2008-08-07 21:57:16 +0200 (Thu, 07 Aug 2008) | 2 lines
 
 Release 0.1
 
-------------------------------------------------------------------------
-r39 | louis | 2008-08-07 21:56:50 +0200 (Thu, 07 Aug 2008) | 2 lines
-
-removed faulty release 0.1
-
-------------------------------------------------------------------------
-r38 | louis | 2008-08-07 21:50:07 +0200 (Thu, 07 Aug 2008) | 1 line
-
-Release version 0.1
 ------------------------------------------------------------------------
 r37 | louis | 2008-08-07 21:50:06 +0200 (Thu, 07 Aug 2008) | 2 lines
 
@@ -498,190 +484,8 @@ r36 | louis | 2008-08-07 21:49:18 +0200 (Thu, 07 Aug 2008) | 2 lines
 Added tagging in svn of release versions
 
 ------------------------------------------------------------------------
-r35 | louis | 2008-08-07 20:35:29 +0200 (Thu, 07 Aug 2008) | 2 lines
-
-added tags directory
-
-------------------------------------------------------------------------
-r34 | louis | 2008-08-07 20:29:06 +0200 (Thu, 07 Aug 2008) | 2 lines
-
-cleanup 
-
-------------------------------------------------------------------------
 r33 | louis | 2008-08-07 20:27:36 +0200 (Thu, 07 Aug 2008) | 2 lines
 
 first checkin to trunk
-
-------------------------------------------------------------------------
-r32 | louis | 2008-08-07 20:25:49 +0200 (Thu, 07 Aug 2008) | 2 lines
-
-working version of make-dist
-
-------------------------------------------------------------------------
-r31 | louis | 2008-08-07 20:24:23 +0200 (Thu, 07 Aug 2008) | 2 lines
-
-first version of fedora and Centos spec files
-
-------------------------------------------------------------------------
-r30 | louis | 2008-08-07 20:23:24 +0200 (Thu, 07 Aug 2008) | 2 lines
-
-check in to allow move to trunk
-
-------------------------------------------------------------------------
-r29 | louis | 2008-08-07 20:04:46 +0200 (Thu, 07 Aug 2008) | 2 lines
-
-separated Fedora and Centos rpm spec files
-
-------------------------------------------------------------------------
-r28 | louis | 2008-08-07 17:04:47 +0200 (Thu, 07 Aug 2008) | 2 lines
-
-Added dist and rpm targets to Makefile
-
-------------------------------------------------------------------------
-r27 | louis | 2008-08-02 23:25:30 +0200 (Sat, 02 Aug 2008) | 3 lines
-
-Added spec file for creation of rpm
-Changed delay after nack (0 bytes confirmed by printer) to  3 seconds
-
-------------------------------------------------------------------------
-r26 | louis | 2008-07-31 00:19:27 +0200 (Thu, 31 Jul 2008) | 4 lines
-
-Adapted debugging/logging to CUPS way of things.
-Added CUPS loglevel support
-Log everything to stderr
-
-------------------------------------------------------------------------
-r25 | louis | 2008-07-30 15:24:01 +0200 (Wed, 30 Jul 2008) | 2 lines
-
-Correction to make ignore absense of ../Makedefs
-
-------------------------------------------------------------------------
-r24 | louis | 2008-07-30 15:22:29 +0200 (Wed, 30 Jul 2008) | 2 lines
-
-More adaptations to automate standalone detection
-
-------------------------------------------------------------------------
-r23 | louis | 2008-07-30 14:23:44 +0200 (Wed, 30 Jul 2008) | 3 lines
-
-Added support for standalone configuration (i.e. no dependencies on cups tree anymore).
-Standalone setup removes i18n support
-
-------------------------------------------------------------------------
-r22 | louis | 2008-07-29 14:10:30 +0200 (Tue, 29 Jul 2008) | 4 lines
-
-removed side channel and back channel functions:
-   - side channel is integrated in main loop of runloop as that avoids problems with ack handling
-   - back channel is not supported by bjnp protocol, but is used for acks
-
-------------------------------------------------------------------------
-r21 | louis | 2008-07-28 17:26:27 +0200 (Mon, 28 Jul 2008) | 2 lines
-
-cleanup of #defines, re-enabled side-channel
-
-------------------------------------------------------------------------
-r20 | louis | 2008-07-28 12:46:27 +0200 (Mon, 28 Jul 2008) | 2 lines
-
-Makefile updated to remove reference tp /usr/lib64 (reverted to use of ../cups/...
-
-------------------------------------------------------------------------
-r19 | louis | 2008-07-18 21:56:29 +0200 (Fri, 18 Jul 2008) | 2 lines
-
-Added TODO
-
-------------------------------------------------------------------------
-r18 | louis | 2008-07-18 21:49:17 +0200 (Fri, 18 Jul 2008) | 3 lines
-
-Updated copyright for Makefile
-Updated Makefile to remove Depencies.bak
-
-------------------------------------------------------------------------
-r17 | louis | 2008-07-18 21:45:17 +0200 (Fri, 18 Jul 2008) | 2 lines
-
-Added copyright headers, added LICENSE.txt and README
-
-------------------------------------------------------------------------
-r16 | louis | 2008-07-18 21:31:41 +0200 (Fri, 18 Jul 2008) | 2 lines
-
-readme updates
-
-------------------------------------------------------------------------
-r15 | louis | 2008-07-17 23:30:08 +0200 (Thu, 17 Jul 2008) | 2 lines
-
-added readme file
-
-------------------------------------------------------------------------
-r14 | louis | 2008-07-16 23:47:38 +0200 (Wed, 16 Jul 2008) | 2 lines
-
-corrections
-
-------------------------------------------------------------------------
-r13 | louis | 2008-07-16 23:42:14 +0200 (Wed, 16 Jul 2008) | 2 lines
-
-second set of changes for consolidated version
-
-------------------------------------------------------------------------
-r12 | louis | 2008-07-16 23:11:03 +0200 (Wed, 16 Jul 2008) | 2 lines
-
-first set of modifications to merge cups 1.2 and 1.3 versions
-
-------------------------------------------------------------------------
-r11 | louis | 2008-07-05 20:54:56 +0200 (Sat, 05 Jul 2008) | 3 lines
-
-acks are now handled in the mainloop of bjnp-runloop.c
-I hope this does speed printing up
-
-------------------------------------------------------------------------
-r10 | louis | 2008-06-14 15:28:50 +0200 (Sat, 14 Jun 2008) | 2 lines
-
-re-formatted using indent -gnu
-
-------------------------------------------------------------------------
-r9 | louis | 2008-06-14 15:25:18 +0200 (Sat, 14 Jun 2008) | 2 lines
-
-minor format cleanups
-
-------------------------------------------------------------------------
-r8 | louis | 2008-06-14 14:36:48 +0200 (Sat, 14 Jun 2008) | 4 lines
-
-First introduction of windowing of TCP printing.
-bjnp_write modified to print only buffer upto command ant let runloop handle printing of remainder
-Not yet complete as checks in sequence number and number of bytes received by printer do not yet work
-
-------------------------------------------------------------------------
-r7 | louis | 2008-06-14 12:49:25 +0200 (Sat, 14 Jun 2008) | 2 lines
-
-Added some comments
-
-------------------------------------------------------------------------
-r6 | louis | 2008-06-03 23:14:36 +0200 (Tue, 03 Jun 2008) | 2 lines
-
-Small corrections to debug settings
-
-------------------------------------------------------------------------
-r5 | louis | 2008-06-03 23:12:58 +0200 (Tue, 03 Jun 2008) | 3 lines
-
-fixed broadcast on nultihomed hosts (use broadcast addr of interface instead of all 1's)
-Added comments & cleanup
-
-------------------------------------------------------------------------
-r4 | louis | 2008-06-03 22:17:56 +0200 (Tue, 03 Jun 2008) | 2 lines
-
-Cleanups & add check for loopback in printer discovery
-
-------------------------------------------------------------------------
-r3 | louis | 2008-06-03 20:46:42 +0200 (Tue, 03 Jun 2008) | 2 lines
-
-more comments and cleanups
-
-------------------------------------------------------------------------
-r2 | louis | 2008-06-03 00:08:40 +0200 (Tue, 03 Jun 2008) | 2 lines
-
-started commenting bjnp-io.c
-
-------------------------------------------------------------------------
-r1 | louis | 2008-06-02 22:54:01 +0200 (Mon, 02 Jun 2008) | 3 lines
-
-initial import
-
 
 ------------------------------------------------------------------------

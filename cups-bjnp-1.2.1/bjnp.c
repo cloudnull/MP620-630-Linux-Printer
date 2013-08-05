@@ -26,10 +26,13 @@
  * Include necessary headers.
  */
 
+#include "bjnp.h"
+#include <stdio.h>
 #include <stdarg.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include "bjnp.h"
+#include <signal.h>
+#include <errno.h>
 
 #ifdef WIN32
 #  include <winsock.h>
@@ -68,15 +71,14 @@ main (int argc,			/* I - Number of command-line arguments (6 or 7) */
   time_t start_time;		/* Time of first connect */
   int recoverable;		/* Recoverable error shown? */
   int contimeout;		/* Connection timeout */
-  int waiteof;			/* Wait for end-of-file? */
   int port;			/* Port number */
   char portname[255];		/* Port name */
   int delay;			/* Delay for retries... */
   int device_fd;		/* AppSocket */
   int error;			/* Error code (if any) */
   int i;			/* loop variable */
-  http_addrlist_t *addrlist,	/* Address list */
-   *addr;			/* Connected address */
+  http_addrlist_t *addrlist;	/* Address list */
+  http_addr_t *addr;		/* Connected address */
   char addrname[256];		/* Address name */
   ssize_t tbytes;		/* Total number of bytes written */
   char *bjnp_debugstr;		/* environment string */
@@ -118,7 +120,7 @@ main (int argc,			/* I - Number of command-line arguments (6 or 7) */
 
   if (argc == 1)
     {
-      struct printer_list printers[256];
+      struct printer_list printers[BJNP_PRINTERS_MAX];
       int num_printers;
       int i;
 
@@ -141,8 +143,7 @@ main (int argc,			/* I - Number of command-line arguments (6 or 7) */
     {
       fprintf (stderr, "cups BJNP backend - version %s\n", VERSION);
       _cupsLangPrintf (stderr,
-		       _
-		       ("Usage: %s job-id user title copies options [file]\n"),
+		       _ ("Usage: %s job-id user title copies options [file]\n"),
 		       argv[0]);
       return (CUPS_BACKEND_FAILED);
     }
@@ -182,13 +183,12 @@ main (int argc,			/* I - Number of command-line arguments (6 or 7) */
 		   resource, sizeof (resource));
 
   if (port == 0)
-    port = 8611;		/* Default to bjnp-1 */
+    port =  BJNP_PORT_PRINT;
 
   /*
    * Get options, if any...
    */
 
-  waiteof = 1;
   contimeout = 7 * 24 * 60 * 60;
 
   if ((options = strchr (resource, '?')) != NULL)
@@ -240,16 +240,7 @@ main (int argc,			/* I - Number of command-line arguments (6 or 7) */
 	   * Process the option...
 	   */
 
-	  if (!strcasecmp (name, "waiteof"))
-	    {
-	      /*
-	       * Set the wait-for-eof value...
-	       */
-
-	      waiteof = !value[0] || !strcasecmp (value, "on") ||
-		!strcasecmp (value, "yes") || !strcasecmp (value, "true");
-	    }
-	  else if (!strcasecmp (name, "contimeout"))
+	  if (!strcasecmp (name, "contimeout"))
 	    {
 	      /*
 	       * Set the connection timeout...
@@ -300,8 +291,8 @@ main (int argc,			/* I - Number of command-line arguments (6 or 7) */
 
   for (delay = 5;;)
     {
-      if ((addr = bjnp_send_job_details (addrlist, argv[2], argv[3])) == NULL
-	  || (addr = httpAddrConnect (addrlist, &device_fd)) == NULL)
+      if ( ( (addr = bjnp_start_job (addrlist, argv[2], argv[3]) ) == NULL) ||
+	   ( device_fd = bjnp_addr_connect (addr)) < 0 )
 	{
 	  error = errno;
 	  device_fd = -1;
@@ -384,17 +375,9 @@ main (int argc,			/* I - Number of command-line arguments (6 or 7) */
   fputs ("STATE: -connecting-to-device\n", stderr);
   _cupsLangPrintf (stderr, _("INFO: Connected to %s...\n"), hostname);
 
-#ifdef AF_INET6
-  if (addr->addr.addr.sa_family == AF_INET6)
-    fprintf (stderr, "DEBUG: Connected to [%s]:%d (IPv6)...\n",
-	     httpAddrString (&addr->addr, addrname, sizeof (addrname)),
-	     ntohs (addr->addr.ipv6.sin6_port));
-  else
-#endif /* AF_INET6 */
-  if (addr->addr.addr.sa_family == AF_INET)
-    fprintf (stderr, "DEBUG: Connected to %s:%d (IPv4)...\n",
-	     httpAddrString (&addr->addr, addrname, sizeof (addrname)),
-	     ntohs (addr->addr.ipv4.sin_port));
+  get_address_info( addr, addrname, &port);
+  fprintf (stderr, "DEBUG: Connected to [%s]:%d (%s)...\n",
+           addrname, port, (addr->addr.sa_family == AF_INET ? "IPv4" : "IPV6") );
 
   /*
    * Print everything...
@@ -439,8 +422,10 @@ main (int argc,			/* I - Number of command-line arguments (6 or 7) */
    * and tell printer to finsh job 
    */
   bjnp_finish_job (addr);
-
+  free(addr);
+  addr = NULL;
   httpAddrFreeList (addrlist);
+  addrlist = NULL;
 
   /*
    * delay a bit as otherwise next job may hang (reported by Zedonet for PIXMA MX7600) 
