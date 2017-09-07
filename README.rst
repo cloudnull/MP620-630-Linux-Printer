@@ -1,4 +1,4 @@
-MP 620 - 630 | Debian Based Univeral Installer
+MP 620 - 630 | Debian Based Universal Installer
 ##############################################
 
 This should Work on ALL Debian Based Systems
